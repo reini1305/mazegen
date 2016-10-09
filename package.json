@@ -1,0 +1,45 @@
+{
+  "name": "AMazeR",
+  "author": "Christian Reinbacher",
+  "version": "1.0.0",
+  "keywords": [
+    "pebble-app"
+  ],
+  "private": true,
+  "dependencies": {
+    "@smallstoneapps/linked-list": "^1.3.0",
+    "enamel": "^1.2.3",
+    "pebble-clay": "^1.0.2"
+  },
+  "pebble": {
+    "displayName": "AMazeR",
+    "uuid": "e2033243-e9c0-460f-bc3f-28327f31b83c",
+    "sdkVersion": "3",
+    "enableMultiJS": true,
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "diorite"
+    ],
+    "watchapp": {
+      "watchface": true
+    },
+    "messageKeys": [
+      "colorscheme",
+      "vibrate"
+    ],
+    "capabilities": [
+      "configurable"
+    ],
+    "resources": {
+      "media": [
+        {
+          "menuIcon": true,
+          "type": "png",
+          "name": "IMAGE_MENU_ICON",
+          "file": "logo.png"
+        }
+      ]
+    }
+  }
+}

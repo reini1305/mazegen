@@ -1,0 +1,48 @@
+[
+{
+  "type": "heading",
+  "id": "main-heading",
+  "defaultValue": "AMazeR Configuration",
+  "size": 1
+},
+{
+  "type": "text",
+  "defaultValue": "If you like what I'm doing, consider a donation: <a href='https://pledgie.com/campaigns/28156'><img alt='Click here to lend your support to: Christian Reinbachers Pebble Apps and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28156.png?skin_name=chrome' border='0' ></a>",
+  "id": "donationtext"
+},
+{
+  "type": "section",
+  "items": [
+            {
+            "type": "heading",
+            "defaultValue": "Settings"
+            },
+            {
+            "type": "select",
+            "messageKey": "colorscheme",
+            "defaultValue": "0",
+            "label": "Color scheme",
+            "options": [
+                        {
+                        "label": "Dark",
+                        "value": 0
+                        },
+                        {
+                        "label": "Light",
+                        "value": 1
+                      }
+                        ]
+            },
+            {
+            "type": "toggle",
+            "messageKey": "vibrate",
+            "label": "Vibrate on disconnect",
+            "defaultValue": false
+            }
+          ]
+},
+{
+  "type": "submit",
+  "defaultValue": "Save"
+}
+]
