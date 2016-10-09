@@ -38,6 +38,12 @@
             "messageKey": "vibrate",
             "label": "Vibrate on disconnect",
             "defaultValue": false
+            },
+            {
+            "type": "toggle",
+            "messageKey": "date",
+            "label": "Show date on wrist flick",
+            "defaultValue": false
             }
           ]
 },

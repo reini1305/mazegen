@@ -66,9 +66,8 @@ static void maze_layer_draw(Layer *layer, GContext *ctx)
   }
 }
 
-static void tickHandler(struct tm *tick_time, TimeUnits units) {
-
-	char *time_format;
+static void update_time(struct tm *tick_time) {
+  char *time_format;
 	if (clock_is_24h_style()) {
 	    time_format = "%R";
 	} else {
@@ -82,7 +81,10 @@ static void tickHandler(struct tm *tick_time, TimeUnits units) {
   if (!clock_is_24h_style() && (time_text[0] == '0')) {
     memmove(time_text, &time_text[1], sizeof(time_text) - 1);
   }
+}
 
+static void tickHandler(struct tm *tick_time, TimeUnits units) {
+  update_time(tick_time);
   maze_generate(maze);
   has_been_solved = false;
   //maze_solve(maze);
@@ -93,6 +95,12 @@ static void tickHandler(struct tm *tick_time, TimeUnits units) {
 void hide_solution(void* data) {
   show_solution = false;
   layer_mark_dirty(maze_layer);
+  if(enamel_get_date()){
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    update_time(t);
+    layer_mark_dirty(text_layer_get_layer(time_layer));
+  }
 }
 
 static void accel_tap_handler(AccelAxisType axis, int32_t direction) {
@@ -101,6 +109,13 @@ static void accel_tap_handler(AccelAxisType axis, int32_t direction) {
     has_been_solved=true;
   }
   show_solution = true;
+  if(enamel_get_date()){
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    char* time_format = "%m %d";
+    strftime(time_text, sizeof(time_text), time_format, t);
+    layer_mark_dirty(text_layer_get_layer(time_layer));
+  }
   layer_mark_dirty(maze_layer);
   if(!app_timer_reschedule(hide_solution_timer,5000))
     hide_solution_timer = app_timer_register(5000,hide_solution,NULL);
