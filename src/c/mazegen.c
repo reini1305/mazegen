@@ -15,7 +15,16 @@ static AppTimer *hide_solution_timer;
 static EventHandle event_handle;
 static bool has_been_solved = false;
 
+#ifdef PBL_PLATFORM_EMERY
+#define OFFSET_BOTTOM 52
+#define OFFSET_TOP 5
+#define OFFSET_LEFT 4
+#else
+#define OFFSET_TOP 0
+#define OFFSET_LEFT 0
 #define OFFSET_BOTTOM 45
+#endif
+
 
 void unobstructed_change(AnimationProgress progress, void* data) {
   GRect bounds = layer_get_unobstructed_bounds(window_get_root_layer(window));
@@ -48,20 +57,20 @@ static void maze_layer_draw(Layer *layer, GContext *ctx)
     for(uint8_t y=0; y<MAZE_SIZE_Y;y++) {
       uint8_t walls = maze[maze_ind2sub(x,y)].walls;
       if(show_solution && maze[maze_ind2sub(x,y)].correct_path) {
-        graphics_fill_rect(ctx,GRect(x*cell_width,y*cell_width,cell_width,cell_width),0,GCornerNone);
+        graphics_fill_rect(ctx,GRect(OFFSET_LEFT+x*cell_width,OFFSET_TOP+y*cell_width,cell_width,cell_width),0,GCornerNone);
       }
       if(walls & N)
-        graphics_draw_line(ctx, GPoint(x*cell_width,y*cell_width),
-                                GPoint((x+1)*cell_width,y*cell_width));
+        graphics_draw_line(ctx, GPoint(OFFSET_LEFT+x*cell_width,OFFSET_TOP+y*cell_width),
+                                GPoint(OFFSET_LEFT+(x+1)*cell_width,OFFSET_TOP+y*cell_width));
       if(walls & S)
-        graphics_draw_line(ctx, GPoint(x*cell_width,(y+1)*cell_width),
-                                GPoint((x+1)*cell_width,(y+1)*cell_width));
+        graphics_draw_line(ctx, GPoint(OFFSET_LEFT+x*cell_width,OFFSET_TOP+(y+1)*cell_width),
+                                GPoint(OFFSET_LEFT+(x+1)*cell_width,OFFSET_TOP+(y+1)*cell_width));
       if(walls & E)
-        graphics_draw_line(ctx, GPoint(x*cell_width,y*cell_width),
-                                GPoint(x*cell_width,(y+1)*cell_width));
+        graphics_draw_line(ctx, GPoint(OFFSET_LEFT+x*cell_width,OFFSET_TOP+y*cell_width),
+                                GPoint(OFFSET_LEFT+x*cell_width,OFFSET_TOP+(y+1)*cell_width));
       if(walls & W)
-        graphics_draw_line(ctx, GPoint((x+1)*cell_width,y*cell_width),
-                                GPoint((x+1)*cell_width,(y+1)*cell_width));
+        graphics_draw_line(ctx, GPoint(OFFSET_LEFT+(x+1)*cell_width,OFFSET_TOP+y*cell_width),
+                                GPoint(OFFSET_LEFT+(x+1)*cell_width,OFFSET_TOP+(y+1)*cell_width));
     }
   }
 }
@@ -128,7 +137,11 @@ static void window_load(Window *window) {
   time_layer = text_layer_create(GRect(0, bounds.size.h-OFFSET_BOTTOM, bounds.size.w, OFFSET_BOTTOM));
   text_layer_set_background_color(time_layer, enamel_get_colorscheme()==1?GColorWhite:GColorBlack);
   text_layer_set_text_color(time_layer, enamel_get_colorscheme()==0?GColorWhite:GColorBlack);
+#ifdef PBL_PLATFORM_EMERY
+  text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_ROBOTO_BOLD_SUBSET_49));
+#else
   text_layer_set_font(time_layer, fonts_get_system_font(FONT_KEY_LECO_42_NUMBERS));
+#endif
   text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
   text_layer_set_text(time_layer,time_text);
 

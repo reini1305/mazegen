@@ -5,7 +5,11 @@
 
 #define MAZE_SIZE_X 12
 #define MAZE_SIZE_Y 10
+#ifdef PBL_PLATFORM_EMERY
+#define CELL_SIZE   16
+#else
 #define CELL_SIZE   12
+#endif
 #define END_X       11
 #define END_Y       9
 
